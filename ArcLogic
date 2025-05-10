@@ -1,0 +1,53 @@
+import React from "react"; import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"; import { Button } from "@/components/ui/button"; import { Card, CardContent } from "@/components/ui/card"; import { Input } from "@/components/ui/input"; import { motion, AnimatePresence } from "framer-motion";
+
+function PageWrapper({ children }) { return ( <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} > {children} </motion.div> ); }
+
+function Home() { return ( <PageWrapper> {/* Hero Section */} <section className="text-center py-20 bg-gradient-to-br from-blue-900 to-blue-600 text-white"> <h2 className="text-4xl font-bold mb-4">Powering Homes and Businesses with Precision and Safety</h2> <p className="mb-6 text-lg">Licensed, insured, and trusted electrical experts.</p> <Button>Get a Free Estimate</Button> </section>
+
+{/* Services Section */}
+  <section id="services" className="py-16 px-6 bg-gray-100">
+    <h3 className="text-3xl font-bold text-center mb-10">Our Services</h3>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {["Residential", "Commercial", "Smart Homes", "Panel Upgrades"].map(service => (
+        <Card key={service}>
+          <CardContent className="p-6 text-center">
+            <h4 className="text-xl font-semibold mb-2">{service}</h4>
+            <p className="text-sm text-gray-600">Expert installation and maintenance services.</p>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  </section>
+</PageWrapper>
+
+); }
+
+function About() { return ( <PageWrapper> <section className="py-16 px-6"> <div className="max-w-4xl mx-auto text-center"> <h3 className="text-3xl font-bold mb-4">About ArcLogic</h3> <p className="text-gray-700 text-lg">We’ve powered hundreds of homes and businesses across the region with a commitment to safety, efficiency, and innovation. Our certified team delivers top-quality work with transparency and integrity.</p> </div> </section> </PageWrapper> ); }
+
+function Projects() { return ( <PageWrapper> <section className="py-16 px-6 bg-gray-100"> <h3 className="text-3xl font-bold text-center mb-10">Our Projects</h3> <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"> {[1, 2, 3].map(p => ( <Card key={p}> <CardContent className="p-4"> <div className="bg-gray-300 h-40 mb-4"></div> <h4 className="font-semibold">Project #{p}</h4> <p className="text-sm text-gray-600">Completed high-quality electrical work on time and on budget.</p> </CardContent> </Card> ))} </div> </section> </PageWrapper> ); }
+
+function Contact() { return ( <PageWrapper> <section className="py-16 px-6"> <div className="max-w-2xl mx-auto text-center"> <h3 className="text-3xl font-bold mb-6">Contact Us</h3> <form className="grid gap-4"> <Input placeholder="Your Name" /> <Input placeholder="Your Email" type="email" /> <Input placeholder="Your Phone" /> <Input placeholder="Your Message" className="h-32" /> <Button type="submit">Send Message</Button> </form> </div> </section> </PageWrapper> ); }
+
+function NotFound() { return ( <PageWrapper> <section className="py-20 text-center"> <h1 className="text-5xl font-bold mb-4">404</h1> <p className="text-xl">Page Not Found</p> <Link to="/" className="text-blue-600 underline mt-4 block">Return Home</Link> </section> </PageWrapper> ); }
+
+export default function ArcLogic() { return ( <Router> <div className="min-h-screen bg-white text-gray-800"> {/* Header */} <header className="p-6 flex justify-between items-center shadow-md bg-blue-900 text-white"> <h1 className="text-2xl font-bold">ArcLogic Electrical</h1> <nav className="space-x-6"> <Link to="/" className="hover:underline">Home</Link> <Link to="/about" className="hover:underline">About</Link> <Link to="/projects" className="hover:underline">Projects</Link> <Link to="/contact" className="hover:underline">Contact</Link> </nav> <Button variant="secondary">Request a Quote</Button> </header>
+
+<AnimatePresence mode="wait">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AnimatePresence>
+
+    {/* Footer */}
+    <footer className="bg-blue-900 text-white p-6 text-center">
+      <p>&copy; {new Date().getFullYear()} ArcLogic Electrical. All rights reserved.</p>
+    </footer>
+  </div>
+</Router>
+
+); }
+
